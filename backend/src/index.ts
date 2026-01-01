@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 
 import { Env } from './config/env.config';
+import { errorHandler } from './middlewares/errorHandler.middleware';
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
