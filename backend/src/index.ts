@@ -7,6 +7,7 @@ import { errorHandler } from './middlewares/errorHandler.middleware';
 import { InternalServerException } from './utils/app-error';
 import { asyncHandler } from './middlewares/asyncHandler.middleware';
 import connectDatabase from './config/database.config';
+import authRoutes from './routes/auth.route';
 
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
@@ -18,10 +19,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.get("/", asyncHandler(async (req, res) => {
-    throw new InternalServerException("Something went wrong");
-    res.send("Hello world")
-}));
+app.use(`${BASE_PATH}/auth`, authRoutes);
 
 app.use(errorHandler);
 

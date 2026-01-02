@@ -1,15 +1,35 @@
+version: '3'
 services:
-  my-mongo-server:
+  # finance-tracker-client:
+  #   image: finance-tracker-client
+  #   build: frontend/
+  #   stdin_open: true
+  #   ports: 
+  #     - "5173:5173"
+  #   networks: 
+  #     - finance-tracker-network
+  finance-tracker-server:
+    image: finance-tracker-server
+    build: backend/
+    ports:
+      - "8080:8080"
+    networks:
+      - finance-tracker-network
+    depends_on:
+      - mongo
+  mongo:
     image: mongo:latest
-    container_name: my-mongo-server
+    command: [ "mongod", "--replSet", "rs0", "--bind_ip_all" ]
     restart: unless-stopped
+    networks:
+      - finance-tracker-network
     volumes:
       - my-mongo-volume:/data/db
-    environment:
-      MONGO_ROOT_USERNAME: admin
-      MONGO_ROOT_PASSWORD: password123
     ports:
       - "27017:27017"
+networks:
+  finance-tracker-network:
+    driver: bridge
 volumes:
   my-mongo-volume:
     driver: local

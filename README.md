@@ -5,6 +5,7 @@ Using docker for mongodb
 <!-- This is to persist the data even when the container is killed -->
 - docker volume create my-mongo-volume 
 
-- docker run --name my-mongo-server -p 27107:27107 -d -e MONGO_ROOT_USERNAME=admin -e MONGO_ROOT_PASSWORD=password123 -v my-mongo-volume:/data/db mongo
+- docker run --name my-mongo-server -p 27017:27017 -d -e MONGO_ROOT_USERNAME=admin -e MONGO_ROOT_PASSWORD=password123 -v my-mongo-volume:/data/db mongo --replSet rs0
+- docker run --name my-mongo-server -p 27017:27017 -d -v my-mongo-volume:/data/db mongo --replSet rs0
 
-- docker exec -it bash <CONTAINER_NAME>
+- docker exec -it <CONTAINER_ID> bash
