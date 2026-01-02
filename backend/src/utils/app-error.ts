@@ -57,6 +57,19 @@ export class UnauthorizedException extends AppError {
     }
 }
 
+export class ResourceConflictException extends AppError {
+    constructor(
+        message = "Resource already exists",
+        errorCode?: ErrorCodeEnumType
+    ) {
+        super(
+            message,
+            HTTPSTATUS.CONFLICT,
+            errorCode || ErrorCodeEnum.RESOURCE_CONFLICT_ERROR
+        );
+    }
+}
+
 export class InternalServerException extends AppError {
     constructor(
         message = "Internal Server Error",

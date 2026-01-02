@@ -45,7 +45,7 @@ export interface TransactionDocument extends Document {
     date: Date; // date when the transaction was made
     description?: string; // information about the transaction
     status: keyof typeof TransactionStatusEnum;
-    paymentMethods: keyof typeof PaymentMethodEnum;
+    paymentMethod: keyof typeof PaymentMethodEnum;
     createdAt: Date;
     updatedAt: Date;
 }
