@@ -1,20 +1,15 @@
-version: '3.8'
-# run a nodejs app with a mongo database
 services:
-  app:
-    image: node:latest
-    working_dir: /usr/src/app
-    volumes:
-      - .:/usr/src/app
-    command: sh -c "npm install && npm start"
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
-
-  mongo:
+  my-mongo-server:
     image: mongo:latest
+    container_name: my-mongo-server
+    restart: unless-stopped
+    volumes:
+      - my-mongo-volume:/data/db
+    environment:
+      MONGO_ROOT_USERNAME: admin
+      MONGO_ROOT_PASSWORD: password123
     ports:
       - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+volumes:
+  my-mongo-volume:
+    driver: local
