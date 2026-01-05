@@ -1,38 +1,22 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../middlewares/asyncHandler.middleware';
 import { HTTPSTATUS } from '../config/http.config';
-import {
-    loginValidatorSchema,
-    registerValidatorSchema
-} from '../validators/auth.validator';
-import {
-    registerService,
-    loginService
-} from '../services/auth.service';
 
-export const registerController = asyncHandler(async (req: Request, res: Response) => {
-
-    const body = registerValidatorSchema.parse(req.body);
-
-    const data = await registerService(body);
-
-    return res
-        .status(HTTPSTATUS.CREATED)
-        .json({ message: "User registered successfully", data });
+export const oAuth2GithubLoginRedirectController = asyncHandler(async (req: Request, res: Response) => {
+    // res.sendStatus(HTTPSTATUS.CREATED).redirect(Env.FRONTEND_ORIGIN);
+    res.sendStatus(HTTPSTATUS.OK);
 });
 
-export const loginController = asyncHandler(async (req: Request, res: Response) => {
+export const logoutController = asyncHandler(async (req: Request, res: Response) => {
+    if (!req.isAuthenticated() || !req.user) {
+        return res.sendStatus(HTTPSTATUS.UNAUTHORIZED);
+    }
 
-    const body = loginValidatorSchema.parse(req.body);
+    req.logOut((err) => {
+        if (err) {
+            return res.sendStatus(HTTPSTATUS.BAD_REQUEST);
+        }
 
-    await loginService(body);
-
-    return res
-        .status(HTTPSTATUS.OK)
-        .json({
-            message: "User logged in successfully",
-            data: {
-
-            }
-        });
+        res.sendStatus(HTTPSTATUS.OK);
+    })
 });

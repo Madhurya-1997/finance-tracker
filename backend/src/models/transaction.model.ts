@@ -1,19 +1,9 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { compareValue, hashValue } from "../utils/bcrypt";
 import { convertToPaise, convertToRupee } from "../utils/format-currency";
 
 export enum TransactionTypeEnum {
     INCOME = "INCOME",
     EXPENSE = "EXPENSE",
-}
-
-export enum PaymentMethodEnum {
-    CARD = "CARD",
-    BANK_TRANSFER = "BANK_TRANSFER",
-    MOBILE_PAYMENT = "MOBILE_PAYMENT",
-    AUTO_DEBIT = "AUTO_DEBIT",
-    CASH = "CASH",
-    OTHER = "OTHER",
 }
 
 export enum TransactionStatusEnum {
@@ -45,7 +35,6 @@ export interface TransactionDocument extends Document {
     date: Date; // date when the transaction was made
     description?: string; // information about the transaction
     status: keyof typeof TransactionStatusEnum;
-    paymentMethod: keyof typeof PaymentMethodEnum;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -107,13 +96,7 @@ const transactionSchema = new Schema<TransactionDocument>(
             type: String,
             enum: Object.values(TransactionStatusEnum),
             default: TransactionStatusEnum.COMPLETED,
-        },
-        paymentMethod: {
-            type: String,
-            enum: Object.values(PaymentMethodEnum),
-            default: PaymentMethodEnum.CASH,
-        },
-
+        }
     },
     {
         timestamps: true,

@@ -1,5 +1,6 @@
 import { HTTPSTATUS, HttpStatusCodeType } from '../config/http.config';
 import { ErrorCodeEnum, ErrorCodeEnumType } from '../enums/error-codes.enum';
+import logger, { LOGGER_SYMBOLS } from './logger';
 
 export class AppError extends Error {
     public statusCode: HttpStatusCodeType;
@@ -23,12 +24,14 @@ export class HttpException extends AppError {
         statusCode: HttpStatusCodeType,
         errorCode?: ErrorCodeEnumType
     ) {
+        logger.error(`${LOGGER_SYMBOLS.ERROR} - ${message}`);
         super(message, statusCode, errorCode);
     }
 }
 
 export class NotFoundException extends AppError {
     constructor(message = "Resource not found", errorCode?: ErrorCodeEnumType) {
+        logger.error(`${LOGGER_SYMBOLS.ERROR} - ${message}`);
         super(
             message,
             HTTPSTATUS.NOT_FOUND,
@@ -39,6 +42,7 @@ export class NotFoundException extends AppError {
 
 export class BadRequestException extends AppError {
     constructor(message = "Bad Request", errorCode?: ErrorCodeEnumType) {
+        logger.error(`${LOGGER_SYMBOLS.ERROR} - ${message}`);
         super(
             message,
             HTTPSTATUS.BAD_REQUEST,
@@ -49,6 +53,7 @@ export class BadRequestException extends AppError {
 
 export class UnauthorizedException extends AppError {
     constructor(message = "Unauthorized Access", errorCode?: ErrorCodeEnumType) {
+        logger.error(`${LOGGER_SYMBOLS.ERROR} - ${message}`);
         super(
             message,
             HTTPSTATUS.UNAUTHORIZED,
@@ -62,6 +67,7 @@ export class ResourceConflictException extends AppError {
         message = "Resource already exists",
         errorCode?: ErrorCodeEnumType
     ) {
+        logger.error(`${LOGGER_SYMBOLS.ERROR} - ${message}`);
         super(
             message,
             HTTPSTATUS.CONFLICT,
@@ -75,6 +81,7 @@ export class InternalServerException extends AppError {
         message = "Internal Server Error",
         errorCode?: ErrorCodeEnumType
     ) {
+        logger.error(`${LOGGER_SYMBOLS.ERROR} - ${message}`);
         super(
             message,
             HTTPSTATUS.INTERNAL_SERVER_ERROR,
